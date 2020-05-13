@@ -4,7 +4,7 @@ import { changeYesOrNoQuestion, changeYesOrNoProbability } from "../redux/action
 import styled from "styled-components";
 
 const DivQuestionContainer = styled.div`
-  width: fit-content;
+  width: max-content;
 
   & > * {
     margin-right: 10px;

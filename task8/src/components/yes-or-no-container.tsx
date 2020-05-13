@@ -3,11 +3,15 @@ import { YesOrNoQuestion } from "./yes-or-no-question"
 import { YesOrNoButton } from "./yes-or-no-button";
 import { YesOrNoResult } from "./yes-or-no-result";
 import styled from "styled-components";
+import { Route, Switch } from "react-router";
 
 const DivContainer = styled.div`
   @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');  
 
-  margin-top: 100px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 
   & * {
     font-family: 'Roboto', sans-serif;
@@ -19,7 +23,7 @@ const DivContainer = styled.div`
   }
 `;
 
-export const Container = () => {
+export const YesOrNoContainer = () => {
   return (
     <DivContainer>
       <YesOrNoQuestion />
