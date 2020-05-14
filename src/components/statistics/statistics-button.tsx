@@ -15,7 +15,7 @@ export const StatisticsButton = () => {
 
   return (
     <button
-      disabled={probabilitiesSum == 100 ? true : false}
+      disabled={probabilitiesSum == 100 ? false : true}
       onClick={() => {dispatch(clickStatisticsButton())}}
     >
       Simulate

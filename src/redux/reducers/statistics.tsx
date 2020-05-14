@@ -1,12 +1,14 @@
 import { IAction, CHANGE_STATISTICS_PROBABILITY, CHANGE_STATISTICS_AMOUNT, CLICK_STATISTICS_BUTTON } from '../action-types';
 
 interface IState {
+  numberOfProbabilities: number,
   probabilities: Array<number>,
   amount: number,
   result: Array<number>
 }
 
 const initialState: IState = {
+  numberOfProbabilities: 5,
   probabilities: new Array<number>(20, 20, 20, 20, 20),
   amount: 10,
   result: new Array<number>(0, 0, 0, 0, 0)
@@ -39,8 +41,19 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
       };
     }
     case CLICK_STATISTICS_BUTTON: {
+      const newResult = new Array<number>(0, 0, 0, 0, 0);
+
+      for (let i = 0; i < state.amount; i++) {
+        newResult[Math.floor(Math.random() * Math.floor(state.numberOfProbabilities))]++;
+      }
+
+      newResult.forEach((value, index) => {
+        newResult[index] = parseFloat((value / state.amount * 100).toFixed(2));
+      });
+
       return {
-        ...state
+        ...state,
+        result: newResult
       };
     }
     default: {
