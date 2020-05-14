@@ -23,14 +23,14 @@ export const MainContainer = () => {
     <>
       <Switch>
         <Route exact path='/'>
-          <Link to='/yes_or_no'>
+          <Link to='/yes-or-no'>
             <Div>Yes or no? (8.1)</Div>
           </Link>
           <Link to='/target'>
            <Div>Target (8.2)</Div>
           </Link>
         </Route>   
-        <Route exact path='/yes_or_no'>
+        <Route exact path='/yes-or-no'>
           <YesOrNoContainer />
         </Route>
         <Route exact path='/target'>
