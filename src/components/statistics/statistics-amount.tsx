@@ -3,11 +3,17 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { changeStatisticsAmount } from "../../redux/actions";
 
+const Div = styled.div`
+  & > * {
+    margin-right: 10px;
+  }
+`;
+
 export const StatisticsAmount = () => {
   const dispatch = useDispatch();
 
   return (
-    <div>
+    <Div>
       <select onChange={e => dispatch(changeStatisticsAmount(parseInt(e.target.value)))}>
         <option value={10}>10</option>
         <option value={100}>100</option>
@@ -15,6 +21,6 @@ export const StatisticsAmount = () => {
         <option value={10000}>10000</option>
       </select>
       <span>events</span>
-    </div>
+    </Div>
   );
 }

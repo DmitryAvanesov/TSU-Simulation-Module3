@@ -4,6 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeStatisticsProbability, clickStatisticsButton } from "../../redux/actions";
 import { LineChart, Line, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
 
+const Div = styled.div`
+  display: inline-block;
+`;
+
 interface IState {
   statistics: {
     numberOfProbabilities: number,
@@ -26,7 +30,7 @@ export const StatisticsChart = () => {
 
   for (let i = 0; i < numberOfProbabilities; i++) {
     data[i] = {
-      name: `Event ${i}`,
+      name: `Event ${i} (%)`,
       real: probabilities[i],
       approximate: result[i]
     };
@@ -34,8 +38,8 @@ export const StatisticsChart = () => {
 
   const barChart = (
     <BarChart
-      width={500}
-      height={300}
+      width={700}
+      height={350}
       data={data}
       margin={{
         top: 5, right: 30, left: 20, bottom: 5,
@@ -52,8 +56,6 @@ export const StatisticsChart = () => {
   );
 
   return (
-    <div>
-      {barChart}
-    </div>
+    <Div>{barChart}</Div>
   );
 }

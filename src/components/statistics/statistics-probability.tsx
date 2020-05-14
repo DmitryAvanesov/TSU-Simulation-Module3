@@ -3,6 +3,16 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { changeStatisticsProbability } from "../../redux/actions";
 
+const Div = styled.div`
+  & > * {
+    margin-right: 10px;
+  }
+`;
+
+const Input = styled.input`
+  width: 225px;
+`;
+
 interface IState {
   statistics: {
     probabilities: Array<number>
@@ -18,14 +28,15 @@ export const StatisticsProbability = (props: IProps) => {
   const dispatch = useDispatch();
 
   return (
-    <div>
+    <Div>
       <span>Probability of event {props.index}</span>
-      <input
+      <Input
         type='number'
         step={0.01}
         value={probability}
         onChange={e => dispatch(changeStatisticsProbability(props.index, parseFloat(e.target.value)))}
-      ></input>
-    </div>
+      ></Input>
+      <span>%</span>
+    </Div>
   );
 }

@@ -5,6 +5,7 @@ import { StatisticsAmount } from "./statistics-amount";
 import { StatisticsButton } from "./statistics-button";
 import { useSelector } from "react-redux";
 import { StatisticsChart } from "./statistics-chart";
+import { StatisticsErrorMessage } from "./statistics-error-message";
 
 const DivContainer = styled.div`
   @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');  
@@ -13,15 +14,20 @@ const DivContainer = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  width: fit-content;
 
   & * {
     font-family: 'Roboto', sans-serif;
     font-size: 22px;
   }
 
-  & > * {
+  & > div > * {
     margin: 0 auto 25px auto;
   }
+`;
+
+const Div = styled.div`
+  display: inline-block;
 `;
 
 interface IState {
@@ -40,9 +46,12 @@ export const StatisticsContainer = () => {
 
   return (
     <DivContainer>
-      {statisticsProbabilities}
-      <StatisticsAmount />
-      <StatisticsButton />
+      <Div>
+        {statisticsProbabilities}
+        <StatisticsAmount />
+        <StatisticsButton />
+        <StatisticsErrorMessage />
+      </Div>
       <StatisticsChart />
     </DivContainer>
   );

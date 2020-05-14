@@ -18,7 +18,7 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
   switch (action.type) {
     case CHANGE_STATISTICS_PROBABILITY: {
       const newProbabilities = [...state.probabilities];
-      let newProbability = action.payload.newProbability;
+      let newProbability = parseFloat(action.payload.newProbability.toFixed(2));
 
       if (newProbability < 0) {
         newProbability = 0;
@@ -44,7 +44,14 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
       const newResult = new Array<number>(0, 0, 0, 0, 0);
 
       for (let i = 0; i < state.amount; i++) {
-        newResult[Math.floor(Math.random() * Math.floor(state.numberOfProbabilities))]++;
+        let probability = Math.random() * 100;
+        let event = -1;
+
+        do {
+          probability -= state.probabilities[++event];
+        } while (probability > 0);
+
+        newResult[event]++;
       }
 
       newResult.forEach((value, index) => {
