@@ -1,9 +1,8 @@
 import React from "react";
-import { YesOrNoQuestion } from "./yes-or-no-question"
-import { YesOrNoButton } from "./yes-or-no-button";
-import { YesOrNoResult } from "./yes-or-no-result";
 import styled from "styled-components";
-import { Route, Switch } from "react-router";
+import { TargetImage } from "./target-image";
+import { TargetButton } from "./target-button";
+import { TargetResult } from "./target-result";
 
 const DivContainer = styled.div`
   @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');  
@@ -26,9 +25,9 @@ const DivContainer = styled.div`
 export const TargetContainer = () => {
   return (
     <DivContainer>
-      <YesOrNoQuestion />
-      <YesOrNoButton />
-      <YesOrNoResult />
+      <TargetImage />
+      <TargetButton />
+      <TargetResult />
     </DivContainer>
   );
 }

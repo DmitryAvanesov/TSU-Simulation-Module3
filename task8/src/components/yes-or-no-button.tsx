@@ -11,7 +11,7 @@ export const YesOrNoButton = () => {
   const dispatch = useDispatch();
 
   return (
-    <Button className="yes-or-no-button" onClick={() => dispatch(clickYesOrNoButton())}>
+    <Button onClick={() => dispatch(clickYesOrNoButton())}>
       Find out
     </Button>
   );

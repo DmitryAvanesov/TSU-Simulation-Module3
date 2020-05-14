@@ -1,6 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { changeYesOrNoQuestion } from "../redux/actions";
+import { useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 
 interface IStyledProps {
@@ -44,6 +43,6 @@ export const YesOrNoResult = () => {
   const resultText = useSelector((state: IState) => state.yesOrNo.resultText);
 
   return (
-    <DivResult result={resultText} className="yes-or-no-result">{resultText}</DivResult>
+    <DivResult result={resultText}>{resultText}</DivResult>
   );
 }
