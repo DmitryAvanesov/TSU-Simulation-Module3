@@ -16,7 +16,6 @@ const targetReducer = (state: IState = initialState, action: IAction) => {
       let newPoints = 0;
 
       do {
-        console.log(probability);
         probability -= pointsProbabilities[newPoints++];
       } while (probability > 0);
 
