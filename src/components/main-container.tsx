@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { YesOrNoContainer } from "./yes-or-no/yes-or-no-container";
 import { Link, Switch, Route } from "react-router-dom";
 import { TargetContainer } from "./target/target-container";
+import { StatisticsContainer } from "./statistics/statistics-container";
 
 const Div = styled.div`
   width: 250px;
@@ -23,18 +24,24 @@ export const MainContainer = () => {
     <>
       <Switch>
         <Route exact path='/'>
-          <Link to='/yes_or_no'>
+          <Link to='/yes-or-no'>
             <Div>Yes or no? (8.1)</Div>
           </Link>
           <Link to='/target'>
            <Div>Target (8.2)</Div>
           </Link>
+          <Link to='/statistics'>
+           <Div>Statistics (9)</Div>
+          </Link>
         </Route>   
-        <Route exact path='/yes_or_no'>
+        <Route exact path='/yes-or-no'>
           <YesOrNoContainer />
         </Route>
         <Route exact path='/target'>
           <TargetContainer />
+        </Route>
+        <Route exact path='/statistics'>
+          <StatisticsContainer />
         </Route>
       </Switch>
     </>
