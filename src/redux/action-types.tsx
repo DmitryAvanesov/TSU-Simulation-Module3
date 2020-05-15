@@ -8,6 +8,8 @@ export const CHANGE_STATISTICS_PROBABILITY = 'CHANGE_STATISTICS_PROBABILITY';
 export const CHANGE_STATISTICS_AMOUNT = 'CHANGE_STATISTICS_AMOUNT';
 export const CLICK_STATISTICS_BUTTON = 'CLICK_STATISTICS_BUTTON';
 
+export const CLICK_DICE_BUTTON = 'CLICK_DICE_BUTTON';
+
 interface IChangeYesOrNoQuestion {
   type: typeof CHANGE_YES_OR_NO_QUESTION
 }
@@ -46,4 +48,8 @@ interface IClickStatisticsButton {
   type: typeof CLICK_STATISTICS_BUTTON
 }
 
-export type IAction = IChangeYesOrNoQuestion | IChangeYesOrNoProbability | IClickYesOrNoButton | IClickTargetButton | IChangeStatisticsProbability | IChangeStatisticsAmount | IClickStatisticsButton;
+interface IClickDiceButton {
+  type: typeof CLICK_DICE_BUTTON
+}
+
+export type IAction = IChangeYesOrNoQuestion | IChangeYesOrNoProbability | IClickYesOrNoButton | IClickTargetButton | IChangeStatisticsProbability | IChangeStatisticsAmount | IClickStatisticsButton | IClickDiceButton;

@@ -4,6 +4,7 @@ import { YesOrNoContainer } from "./yes-or-no/yes-or-no-container";
 import { Link, Switch, Route } from "react-router-dom";
 import { TargetContainer } from "./target/target-container";
 import { StatisticsContainer } from "./statistics/statistics-container";
+import { DiceContainer } from "./dice/dice-container";
 
 const Div = styled.div`
   width: 250px;
@@ -33,7 +34,11 @@ export const MainContainer = () => {
           <Link to='/statistics'>
            <Div>Statistics (9)</Div>
           </Link>
-        </Route>   
+          <Link to='/dice'>
+           <Div>Dice (10)</Div>
+          </Link>
+        </Route>
+
         <Route exact path='/yes-or-no'>
           <YesOrNoContainer />
         </Route>
@@ -42,6 +47,9 @@ export const MainContainer = () => {
         </Route>
         <Route exact path='/statistics'>
           <StatisticsContainer />
+        </Route>
+        <Route exact path='/dice'>
+          <DiceContainer />
         </Route>
       </Switch>
     </>

@@ -4,7 +4,7 @@ module.exports = {
   entry: './src/index.tsx',
   mode: 'development',
   output: {
-    filename: 'main.js',
+    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
   devServer: {
@@ -17,7 +17,7 @@ module.exports = {
   },
   devtool: "source-map",
   resolve: {
-    extensions: [".js", ".ts", ".tsx", ".css", ".scss"]
+    extensions: [".js", ".ts", ".tsx"]
   },
   module: {
     rules: [
@@ -49,8 +49,11 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: ["file-loader"]
+        test: /\.(svg|png|jpe?g|gif|jp2|webp)$/,
+        loader: 'file-loader',
+        options: {
+          name: 'images/[name].[ext]'
+        }
       }
     ]
   }
