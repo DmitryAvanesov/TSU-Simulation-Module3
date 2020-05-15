@@ -9,12 +9,19 @@ const Div = styled.div`
   }
 `;
 
+interface IState {
+  statistics: {
+    amount: number
+  }
+}
+
 export const StatisticsAmount = () => {
+  const amount = useSelector((state: IState) => state.statistics.amount);
   const dispatch = useDispatch();
 
   return (
     <Div>
-      <select onChange={e => dispatch(changeStatisticsAmount(parseInt(e.target.value)))}>
+      <select defaultValue={amount} onChange={e => dispatch(changeStatisticsAmount(parseInt(e.target.value)))}>
         <option value={10}>10</option>
         <option value={100}>100</option>
         <option value={1000}>1000</option>
