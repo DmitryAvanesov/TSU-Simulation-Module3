@@ -1,37 +1,29 @@
 import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
 
-const Img = styled.img`
+interface IStyledProps {
+  flipped: boolean
+}
+
+const Img = styled.img<IStyledProps>`
   display: block;
-
-  &.rotation-appear {
-    opacity: 0.01;
-  }
-  
-  &.rotation-appear.rotation-appear-active {
-    opacity: 1;
-    transition: opacity .5s ease-in;
-  }
+  transition: transform 0.5s;
+  transform: ${props => (props.flipped ? 'rotate(720deg)' : 'rotate(0deg)')};
 `;
 
 interface IState {
   dice: {
-    resultImage: string
+    resultImage: string,
+    flipped: boolean
   }
 }
 
 export const DiceImage = () => {
   const resultImage = useSelector((state: IState) => state.dice.resultImage);
+  const flipped = useSelector((state: IState) => state.dice.flipped);
 
   return (
-    <CSSTransition
-      key={'rotation'}
-      timeout={500}
-      classNames="item"
-    >
-      <Img src={resultImage} />
-    </CSSTransition>
+    <Img src={resultImage} flipped={flipped} />
   );
 }

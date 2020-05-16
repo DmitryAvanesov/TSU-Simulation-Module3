@@ -2,11 +2,13 @@ import { IAction, CLICK_DICE_BUTTON } from '../action-types';
 import imageList from '../../resources/dice/index';
 
 interface IState {
-  resultImage: string
+  resultImage: string,
+  flipped: boolean
 }
 
 const initialState: IState = {
-  resultImage: imageList[0]
+  resultImage: imageList[0],
+  flipped: false
 };
 
 const diceReducer = (state: IState = initialState, action: IAction) => {
@@ -22,7 +24,8 @@ const diceReducer = (state: IState = initialState, action: IAction) => {
 
       return {
         ...state,
-        resultImage: imageList[event]
+        resultImage: imageList[event],
+        flipped: !state.flipped
       };
     }
     default: {

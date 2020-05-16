@@ -17,6 +17,6 @@ export const StatisticsErrorMessage = () => {
   const probabilitiesSum = useSelector((state: IState) => state.statistics.probabilities.reduce((a, b) => a + b));
 
   return (
-    probabilitiesSum != 100 ? <Div>Your probabilities' sum equals to {probabilitiesSum.toFixed(2)}%. Please make it 100%.</Div> : <Div>_______________________________________________________________</Div>
+    probabilitiesSum != 100 ? <Div>Your probabilities&apos; sum equals to {probabilitiesSum.toFixed(2)}%. Please make it 100%.</Div> : <Div>_______________________________________________________________</Div>
   );
 }

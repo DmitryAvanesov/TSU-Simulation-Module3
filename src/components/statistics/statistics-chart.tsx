@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { changeStatisticsProbability, clickStatisticsButton } from "../../redux/actions";
-import { LineChart, Line, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
+import { useSelector } from "react-redux";
+import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
 
 const Div = styled.div`
   display: inline-block;
@@ -25,7 +24,7 @@ interface IData {
 export const StatisticsChart = () => {
   const probabilities = useSelector((state: IState) => state.statistics.probabilities);
   const result = useSelector((state: IState) => state.statistics.result);
-  const numberOfProbabilities = useSelector((state: IState) => state.statistics.numberOfProbabilities);;
+  const numberOfProbabilities = useSelector((state: IState) => state.statistics.numberOfProbabilities);
   const data = new Array<IData>(numberOfProbabilities);
 
   for (let i = 0; i < numberOfProbabilities; i++) {
