@@ -1,5 +1,5 @@
 import { IAction, CLICK_DICE_BUTTON } from '../action-types';
-import imageList from '../../resources/dice/index';
+import imageList from '../../images/dice/index';
 
 interface IState {
   resultImage: string,

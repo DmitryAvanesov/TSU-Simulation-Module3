@@ -19,7 +19,6 @@ const Div = styled.div`
   font-weight: bold;
   color: black;
   border: 5px solid DarkBlue;
-  border-radius: 2%;
 `;
 
 export const MainContainer = () => {
