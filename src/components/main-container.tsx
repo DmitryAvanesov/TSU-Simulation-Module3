@@ -5,19 +5,21 @@ import { Link, Switch, Route } from "react-router-dom";
 import { TargetContainer } from "./target/target-container";
 import { StatisticsContainer } from "./statistics/statistics-container";
 import { DiceContainer } from "./dice/dice-container";
+import { StatsCharacteristicsContainer } from "./stats-characteristics/stats-characteristics-container";
 
 const Div = styled.div`
-  width: 250px;
-  height: 100px;
-  line-height: 100px;
-  background-color: black;
-  color: white;
-  font-size: 26px;
+  width: 275px;
+  height: 75px;
+  line-height: 75px;
+  font-size: 20px;
   font-family: sans-serif;
   text-align: center;
   display: inline-block;
   margin: 20px;
-  border-radius: 5%;
+  font-weight: bold;
+  color: black;
+  border: 5px solid DarkBlue;
+  border-radius: 2%;
 `;
 
 export const MainContainer = () => {
@@ -29,13 +31,16 @@ export const MainContainer = () => {
             <Div>Yes or no? (8.1)</Div>
           </Link>
           <Link to='/target'>
-           <Div>Target (8.2)</Div>
+            <Div>Target (8.2)</Div>
           </Link>
           <Link to='/statistics'>
-           <Div>Statistics (9)</Div>
+            <Div>Statistics (9)</Div>
           </Link>
           <Link to='/dice'>
-           <Div>Dice (10)</Div>
+            <Div>Dice (10)</Div>
+          </Link>
+          <Link to='/stats-characteristics'>
+            <Div>Stats characteristics (11)</Div>
           </Link>
         </Route>
 
@@ -50,6 +55,9 @@ export const MainContainer = () => {
         </Route>
         <Route exact path='/dice'>
           <DiceContainer />
+        </Route>
+        <Route exact path='/stats-characteristics'>
+          <StatsCharacteristicsContainer />
         </Route>
       </Switch>
     </>

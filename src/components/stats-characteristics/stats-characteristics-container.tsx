@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { StatisticsProbability } from "./statistics-probability";
-import { StatisticsAmount } from "./statistics-amount";
-import { StatisticsButton } from "./statistics-button";
+import { StatsCharacteristicsProbability } from "./stats-characteristics-probability";
+import { StatsCharacteristicsAmount } from "./stats-characteristics-amount";
+import { StatsCharacteristicsButton } from "./stats-characteristics-button";
 import { useSelector } from "react-redux";
-import { StatisticsChart } from "./statistics-chart";
-import { StatisticsErrorMessage } from "./statistics-error-message";
+import { StatsCharacteristicsChart } from "./stats-characteristics-chart";
+import { StatsCharacteristicsErrorMessage } from "./stats-characteristics-error-message";
 
 const DivContainer = styled.div`
   @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');  
@@ -36,24 +36,24 @@ interface IState {
   }
 }
 
-export const StatisticsContainer = () => {
+export const StatsCharacteristicsContainer = () => {
   const numberOfProbabilities = useSelector((state: IState) => state.statistics.numberOfProbabilities);
   const statisticsProbabilities = new Array<JSX.Element>();
 
   for (let i = 0; i < numberOfProbabilities; i++) {
-    statisticsProbabilities.push(<StatisticsProbability key={i} index={i} />);
+    statisticsProbabilities.push(<StatsCharacteristicsProbability key={i} index={i} />);
   }
 
   return (
     <DivContainer>
       <Div>
         {statisticsProbabilities}
-        <StatisticsAmount />
-        <StatisticsButton />
-        <StatisticsErrorMessage />
+        <StatsCharacteristicsAmount />
+        <StatsCharacteristicsButton />
+        <StatsCharacteristicsErrorMessage />
       </Div>
       <Div>
-        <StatisticsChart />
+        <StatsCharacteristicsChart />
       </Div>
     </DivContainer>
   );
