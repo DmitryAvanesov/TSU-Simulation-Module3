@@ -10,10 +10,12 @@ const Div = styled.div`
 
 interface IState {
   statistics: {
-    averageApproximate: number | undefined,
-    varianceApproximate: number | undefined,
-    averageError: number | undefined,
-    varianceError: number | undefined
+    averageApproximate: number,
+    varianceApproximate: number,
+    averageError: number,
+    varianceError: number,
+    chiSquareTableValue: number,
+    chiSquare: number
   }
 }
 
@@ -22,6 +24,8 @@ export const StatisticsDiscreteResult = () => {
   const varianceApproximate = useSelector((state: IState) => state.statistics.varianceApproximate);
   const averageError = useSelector((state: IState) => state.statistics.averageError);
   const varianceError = useSelector((state: IState) => state.statistics.varianceError);
+  const chiSquareTableValue = useSelector((state: IState) => state.statistics.chiSquareTableValue);
+  const chiSquare = useSelector((state: IState) => state.statistics.chiSquare);
 
   return (
     <Div>
@@ -30,6 +34,9 @@ export const StatisticsDiscreteResult = () => {
       </div>
       <div>
         Approximate variance: {parseFloat(varianceApproximate.toFixed(2))} (error = {parseFloat((varianceError * 100).toFixed(2))}%)
+      </div>
+      <div>
+        Chi-square: {parseFloat(chiSquare.toFixed(2))} &gt; {chiSquareTableValue} is {chiSquare > chiSquareTableValue ? 'true' : 'false'}
       </div>
     </Div>
   );

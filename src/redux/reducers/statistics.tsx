@@ -8,7 +8,9 @@ interface IState {
   averageApproximate: number,
   varianceApproximate: number,
   averageError: number,
-  varianceError: number
+  varianceError: number,
+  chiSquareTableValue: number,
+  chiSquare: number
 }
 
 const initialState: IState = {
@@ -19,7 +21,9 @@ const initialState: IState = {
   averageApproximate: NaN,
   varianceApproximate: NaN,
   averageError: NaN,
-  varianceError: NaN
+  varianceError: NaN,
+  chiSquareTableValue: 9.2364,
+  chiSquare: NaN
 };
 
 const statisticsReducer = (state: IState = initialState, action: IAction) => {
@@ -101,12 +105,21 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
       const newAverageError = Math.abs(newAverageApproximate - averageReal) / Math.abs(averageReal);
       const newVarianceError = Math.abs(newVarianceApproximate - varianceReal) / Math.abs(varianceReal);
 
+      let newChiSquare = 0;
+
+      state.probabilities.map((value, index) => {
+        newChiSquare += (state.result[index] * 0.01 * state.amount)**2 / (value * 0.01 * state.amount);
+      });
+
+      newChiSquare -= state.amount;
+
       return {
         ...state,
         averageApproximate: newAverageApproximate,
         varianceApproximate: newVarianceApproximate,
         averageError: newAverageError,
-        varianceError: newVarianceError
+        varianceError: newVarianceError,
+        chiSquare: newChiSquare
       };
     }
     default: {
