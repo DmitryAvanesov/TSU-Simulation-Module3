@@ -4,7 +4,10 @@ import { useSelector } from "react-redux";
 
 const Div = styled.div`
   color: red;
-  font-size: 16px !important;
+
+  && {
+    font-size: 16px;
+  }
 `;
 
 interface IState {

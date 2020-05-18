@@ -1,17 +1,25 @@
-import { IAction, CHANGE_STATISTICS_PROBABILITY, CHANGE_STATISTICS_AMOUNT, CLICK_STATISTICS_BUTTON } from '../action-types';
+import { IAction, CHANGE_STATISTICS_PROBABILITY, CHANGE_STATISTICS_AMOUNT, CLICK_STATISTICS_BUTTON, CLICK_STATISTICS_DISCRETE_BUTTON } from '../action-types';
 
 interface IState {
   numberOfProbabilities: number,
   probabilities: Array<number>,
   amount: number,
-  result: Array<number>
+  result: Array<number>,
+  averageApproximate: number,
+  varianceApproximate: number,
+  averageError: number,
+  varianceError: number
 }
 
 const initialState: IState = {
   numberOfProbabilities: 5,
   probabilities: new Array<number>(20, 20, 20, 20, 20),
   amount: 10,
-  result: new Array<number>(0, 0, 0, 0, 0)
+  result: new Array<number>(0, 0, 0, 0, 0),
+  averageApproximate: NaN,
+  varianceApproximate: NaN,
+  averageError: NaN,
+  varianceError: NaN
 };
 
 const statisticsReducer = (state: IState = initialState, action: IAction) => {
@@ -61,6 +69,44 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
       return {
         ...state,
         result: newResult
+      };
+    }
+    case CLICK_STATISTICS_DISCRETE_BUTTON: {
+      const values = new Array<number>(1, 3, 7, 18, 345);
+      let averageReal = 0;
+      let varianceReal = 0;
+      let newAverageApproximate = 0;
+      let newVarianceApproximate = 0;
+
+      state.probabilities.map((value, index) => {
+        averageReal += value * values[index];
+      });
+
+      state.probabilities.map((value, index) => {
+        varianceReal += value * values[index]**2;
+      });
+
+      varianceReal -= averageReal**2;
+
+      state.result.map((value, index) => {
+        newAverageApproximate += value * values[index];
+      });
+
+      state.result.map((value, index) => {
+        newVarianceApproximate += value * values[index]**2;
+      });
+
+      newVarianceApproximate -= newAverageApproximate**2;
+
+      const newAverageError = Math.abs(newAverageApproximate - averageReal) / Math.abs(averageReal);
+      const newVarianceError = Math.abs(newVarianceApproximate - varianceReal) / Math.abs(varianceReal);
+
+      return {
+        ...state,
+        averageApproximate: newAverageApproximate,
+        varianceApproximate: newVarianceApproximate,
+        averageError: newAverageError,
+        varianceError: newVarianceError
       };
     }
     default: {
