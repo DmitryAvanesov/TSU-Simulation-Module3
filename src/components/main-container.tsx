@@ -5,7 +5,7 @@ import { Link, Switch, Route } from "react-router-dom";
 import { TargetContainer } from "./target/target-container";
 import { StatisticsContainer } from "./statistics/statistics-container";
 import { DiceContainer } from "./dice/dice-container";
-import { StatsCharacteristicsContainer } from "./stats-characteristics/stats-characteristics-container";
+import { StatisticsDiscreteContainer } from "./statistics-discrete/statistics-discrete-container";
 
 const Div = styled.div`
   width: 275px;
@@ -38,8 +38,8 @@ export const MainContainer = () => {
           <Link to='/dice'>
             <Div>Dice (10)</Div>
           </Link>
-          <Link to='/stats-characteristics'>
-            <Div>Stats characteristics (11)</Div>
+          <Link to='/statistics-discrete'>
+            <Div>Statistics: discrete (11)</Div>
           </Link>
         </Route>
 
@@ -55,8 +55,8 @@ export const MainContainer = () => {
         <Route exact path='/dice'>
           <DiceContainer />
         </Route>
-        <Route exact path='/stats-characteristics'>
-          <StatsCharacteristicsContainer />
+        <Route exact path='/statistics-discrete'>
+          <StatisticsDiscreteContainer />
         </Route>
       </Switch>
     </>

@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { StatsCharacteristicsProbability } from "./stats-characteristics-probability";
-import { StatsCharacteristicsAmount } from "./stats-characteristics-amount";
-import { StatsCharacteristicsButton } from "./stats-characteristics-button";
+import { StatisticsProbability } from "../statistics/statistics-probability";
+import { StatisticsAmount } from "../statistics/statistics-amount";
+import { StatisticsDiscreteButton } from "./statistics-discrete-button";
 import { useSelector } from "react-redux";
-import { StatsCharacteristicsChart } from "./stats-characteristics-chart";
-import { StatsCharacteristicsErrorMessage } from "./stats-characteristics-error-message";
+import { StatisticsChart } from "../statistics/statistics-chart";
+import { StatisticsErrorMessage } from "../statistics/statistics-error-message";
+import { StatisticsDiscreteResult } from "./statistics-discrete-result";
 
 const DivContainer = styled.div`
   @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');  
@@ -36,24 +37,25 @@ interface IState {
   }
 }
 
-export const StatsCharacteristicsContainer = () => {
+export const StatisticsDiscreteContainer = () => {
   const numberOfProbabilities = useSelector((state: IState) => state.statistics.numberOfProbabilities);
   const statisticsProbabilities = new Array<JSX.Element>();
 
   for (let i = 0; i < numberOfProbabilities; i++) {
-    statisticsProbabilities.push(<StatsCharacteristicsProbability key={i} index={i} />);
+    statisticsProbabilities.push(<StatisticsProbability key={i} index={i} />);
   }
 
   return (
     <DivContainer>
       <Div>
         {statisticsProbabilities}
-        <StatsCharacteristicsAmount />
-        <StatsCharacteristicsButton />
-        <StatsCharacteristicsErrorMessage />
+        <StatisticsAmount />
+        <StatisticsDiscreteButton />
+        <StatisticsErrorMessage />
       </Div>
       <Div>
-        <StatsCharacteristicsChart />
+        <StatisticsChart />
+        <StatisticsDiscreteResult />
       </Div>
     </DivContainer>
   );

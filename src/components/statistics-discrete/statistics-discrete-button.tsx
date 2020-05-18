@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clickStatisticsButton } from "../../redux/actions";
+import { clickStatisticsButton, clickStatisticsDiscreteButton } from "../../redux/actions";
+import { IAction } from "../../redux/action-types";
 
 interface IState {
   statistics: {
@@ -8,14 +9,18 @@ interface IState {
   }
 }
 
-export const StatsCharacteristicsButton = () => {
+export const StatisticsDiscreteButton = () => {
   const probabilitiesSum = useSelector((state: IState) => state.statistics.probabilities.reduce((a, b) => a + b));
   const dispatch = useDispatch();
+
+  const dispatchAll = (actions: Array<IAction>) => {
+    return actions.map(action => dispatch(action));
+  };
 
   return (
     <button
       disabled={probabilitiesSum == 100 ? false : true}
-      onClick={() => {dispatch(clickStatisticsButton())}}
+      onClick={() => {dispatchAll(new Array<IAction>(clickStatisticsButton(), clickStatisticsDiscreteButton()))}}
     >
       Simulate
     </button>
