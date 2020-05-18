@@ -7,7 +7,7 @@ import { StatisticsContainer } from "./statistics/statistics-container";
 import { DiceContainer } from "./dice/dice-container";
 import { StatisticsDiscreteContainer } from "./statistics-discrete/statistics-discrete-container";
 
-const Div = styled.div`
+const DivButton = styled.div`
   width: 275px;
   height: 75px;
   line-height: 75px;
@@ -21,42 +21,71 @@ const Div = styled.div`
   border: 5px solid DarkBlue;
 `;
 
+const DivContainer = styled.div`
+  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');  
+
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+
+  & * {
+    font-family: 'Roboto', sans-serif;
+    font-size: 22px;
+  }
+
+  & > *, & > div > * {
+    margin: 0 auto 25px auto;
+  }
+`;
+
 export const MainContainer = () => {
   return (
     <>
       <Switch>
         <Route exact path='/'>
           <Link to='/yes-or-no'>
-            <Div>Yes or no? (8.1)</Div>
+            <DivButton>Yes or no? (8.1)</DivButton>
           </Link>
           <Link to='/target'>
-            <Div>Target (8.2)</Div>
+            <DivButton>Target (8.2)</DivButton>
           </Link>
           <Link to='/statistics'>
-            <Div>Statistics (9)</Div>
+            <DivButton>Statistics (9)</DivButton>
           </Link>
           <Link to='/dice'>
-            <Div>Dice (10)</Div>
+            <DivButton>Dice (10)</DivButton>
           </Link>
           <Link to='/statistics-discrete'>
-            <Div>Statistics: discrete (11)</Div>
+            <DivButton>Statistics: discrete (11)</DivButton>
           </Link>
         </Route>
 
         <Route exact path='/yes-or-no'>
-          <YesOrNoContainer />
+          <DivContainer>
+            <YesOrNoContainer />
+          </DivContainer>
         </Route>
         <Route exact path='/target'>
-          <TargetContainer />
+          <DivContainer>
+            <TargetContainer />
+          </DivContainer>
         </Route>
         <Route exact path='/statistics'>
-          <StatisticsContainer />
+          <DivContainer>
+            <StatisticsContainer />
+          </DivContainer>
         </Route>
         <Route exact path='/dice'>
-          <DiceContainer />
+          <DivContainer>
+            <DiceContainer />
+          </DivContainer>
         </Route>
         <Route exact path='/statistics-discrete'>
-          <StatisticsDiscreteContainer />
+          <DivContainer>
+            <StatisticsDiscreteContainer />
+          </DivContainer>
         </Route>
       </Switch>
     </>

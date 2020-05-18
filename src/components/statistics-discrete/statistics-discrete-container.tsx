@@ -8,25 +8,6 @@ import { StatisticsChart } from "../statistics/statistics-chart";
 import { StatisticsErrorMessage } from "../statistics/statistics-error-message";
 import { StatisticsDiscreteResult } from "./statistics-discrete-result";
 
-const DivContainer = styled.div`
-  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');  
-
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: fit-content;
-
-  & * {
-    font-family: 'Roboto', sans-serif;
-    font-size: 22px;
-  }
-
-  & > div > * {
-    margin: 0 auto 25px auto;
-  }
-`;
-
 const Div = styled.div`
   display: inline-block;
 `;
@@ -46,7 +27,7 @@ export const StatisticsDiscreteContainer = () => {
   }
 
   return (
-    <DivContainer>
+    <>
       <Div>
         {statisticsProbabilities}
         <StatisticsAmount />
@@ -57,6 +38,6 @@ export const StatisticsDiscreteContainer = () => {
         <StatisticsChart />
         <StatisticsDiscreteResult />
       </Div>
-    </DivContainer>
+    </>
   );
 }
