@@ -30,13 +30,13 @@ export const StatisticsDiscreteResult = () => {
   return (
     <Div>
       <div>
-        Approximate average: {parseFloat(averageApproximate.toFixed(2))} (error = {parseFloat((averageError * 100).toFixed(2))}%)
+        <b>Approximate average: {parseFloat(averageApproximate.toFixed(2))}</b> (error = {parseFloat((averageError * 100).toFixed(2))}%)
       </div>
       <div>
-        Approximate variance: {parseFloat(varianceApproximate.toFixed(2))} (error = {parseFloat((varianceError * 100).toFixed(2))}%)
+        <b>Approximate variance: {parseFloat(varianceApproximate.toFixed(2))}</b> (error = {parseFloat((varianceError * 100).toFixed(2))}%)
       </div>
       <div>
-        Chi-square: {parseFloat(chiSquare.toFixed(2))} &gt; {chiSquareTableValue} is {chiSquare > chiSquareTableValue ? 'true' : 'false'}
+        Chi-square: {parseFloat(chiSquare.toFixed(2))} &gt; {chiSquareTableValue} is <b>{chiSquare > chiSquareTableValue ? 'true' : 'false'}</b>
       </div>
     </Div>
   );
