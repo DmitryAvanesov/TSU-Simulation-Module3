@@ -6,6 +6,7 @@ import { TargetContainer } from "./target/target-container";
 import { StatisticsContainer } from "./statistics/statistics-container";
 import { DiceContainer } from "./dice/dice-container";
 import { StatisticsDiscreteContainer } from "./statistics-discrete/statistics-discrete-container";
+import { FootballContainer } from "./football/football-container";
 
 const DivButton = styled.div`
   width: 275px;
@@ -60,6 +61,9 @@ export const MainContainer = () => {
           <Link to='/statistics-discrete'>
             <DivButton>Statistics: discrete (11)</DivButton>
           </Link>
+          <Link to='/football'>
+            <DivButton>Football (12)</DivButton>
+          </Link>
         </Route>
 
         <Route exact path='/yes-or-no'>
@@ -85,6 +89,11 @@ export const MainContainer = () => {
         <Route exact path='/statistics-discrete'>
           <DivContainer>
             <StatisticsDiscreteContainer />
+          </DivContainer>
+        </Route>
+        <Route exact path='/football'>
+          <DivContainer>
+            <FootballContainer />
           </DivContainer>
         </Route>
       </Switch>
