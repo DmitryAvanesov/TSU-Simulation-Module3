@@ -72,28 +72,28 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
       };
     }
     case CLICK_STATISTICS_DISCRETE_BUTTON: {
-      const values = new Array<number>(1, 3, 7, 18, 345);
+      const values = new Array<number>(1, 3, 7, 9, 35);
       let averageReal = 0;
       let varianceReal = 0;
       let newAverageApproximate = 0;
       let newVarianceApproximate = 0;
 
       state.probabilities.map((value, index) => {
-        averageReal += value * values[index];
+        averageReal += value * 0.01 * values[index];
       });
 
       state.probabilities.map((value, index) => {
-        varianceReal += value * values[index]**2;
+        varianceReal += value * 0.01 * values[index]**2;
       });
 
       varianceReal -= averageReal**2;
 
       state.result.map((value, index) => {
-        newAverageApproximate += value * values[index];
+        newAverageApproximate += value * 0.01 * values[index];
       });
 
       state.result.map((value, index) => {
-        newVarianceApproximate += value * values[index]**2;
+        newVarianceApproximate += value * 0.01 * values[index]**2;
       });
 
       newVarianceApproximate -= newAverageApproximate**2;

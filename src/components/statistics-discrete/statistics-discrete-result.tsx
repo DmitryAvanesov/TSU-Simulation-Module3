@@ -25,10 +25,12 @@ export const StatisticsDiscreteResult = () => {
 
   return (
     <Div>
-      <div>Approximate average: {averageApproximate}</div>
-      <div>(error = {averageError}%)</div>
-      <div>Approximate variance: {varianceApproximate}</div>
-      <div>(error = {varianceError}%)</div>
+      <div>
+        Approximate average: {parseFloat(averageApproximate.toFixed(2))} (error = {parseFloat((averageError * 100).toFixed(2))}%)
+      </div>
+      <div>
+        Approximate variance: {parseFloat(varianceApproximate.toFixed(2))} (error = {parseFloat((varianceError * 100).toFixed(2))}%)
+      </div>
     </Div>
   );
 }
