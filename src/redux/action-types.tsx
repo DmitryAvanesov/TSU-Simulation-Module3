@@ -14,6 +14,9 @@ export const CLICK_STATISTICS_DISCRETE_BUTTON = 'CLICK_STATISTICS_DISCRETE_BUTTO
 
 export const CLICK_FOOTBALL_BUTTON = 'CLICK_FOOTBALL_BUTTON';
 
+export const CHANGE_STATISTICS_PARAMETER = 'CHANGE_STATISTICS_PARAMETER';
+export const CLICK_STATISTICS_INFINITE_BUTTON = 'CLICK_STATISTICS_INFINITE_BUTTON';
+
 interface IChangeYesOrNoQuestion {
   type: typeof CHANGE_YES_OR_NO_QUESTION
 }
@@ -64,4 +67,28 @@ interface IClickFootballButton {
   type: typeof CLICK_FOOTBALL_BUTTON
 }
 
-export type IAction = IChangeYesOrNoQuestion | IChangeYesOrNoProbability | IClickYesOrNoButton | IClickTargetButton | IChangeStatisticsProbability | IChangeStatisticsAmount | IClickStatisticsButton | IClickDiceButton | IClickStatisticsDiscreteButton | IClickFootballButton;
+interface IChangeStatisticsParameter {
+  type: typeof CHANGE_STATISTICS_PARAMETER,
+  payload: {
+    curIndex: number,
+    newParameter: number
+  }
+}
+
+interface IClickStatisticsInfiniteButton {
+  type: typeof CLICK_STATISTICS_INFINITE_BUTTON
+}
+
+export type IAction =
+  IChangeYesOrNoQuestion |
+  IChangeYesOrNoProbability |
+  IClickYesOrNoButton |
+  IClickTargetButton |
+  IChangeStatisticsProbability |
+  IChangeStatisticsAmount |
+  IClickStatisticsButton |
+  IClickDiceButton |
+  IClickStatisticsDiscreteButton |
+  IClickFootballButton |
+  IChangeStatisticsParameter |
+  IClickStatisticsInfiniteButton;

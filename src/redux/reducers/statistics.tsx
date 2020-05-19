@@ -1,4 +1,4 @@
-import { IAction, CHANGE_STATISTICS_PROBABILITY, CHANGE_STATISTICS_AMOUNT, CLICK_STATISTICS_BUTTON, CLICK_STATISTICS_DISCRETE_BUTTON } from '../action-types';
+import { IAction, CHANGE_STATISTICS_PROBABILITY, CHANGE_STATISTICS_AMOUNT, CLICK_STATISTICS_BUTTON, CLICK_STATISTICS_DISCRETE_BUTTON, CHANGE_STATISTICS_PARAMETER, CLICK_STATISTICS_INFINITE_BUTTON } from '../action-types';
 
 interface IState {
   numberOfProbabilities: number,
@@ -10,7 +10,9 @@ interface IState {
   averageError: number,
   varianceError: number,
   chiSquareTableValue: number,
-  chiSquare: number
+  chiSquare: number,
+  numberOfParameters: number,
+  parameters: Array<number>
 }
 
 const initialState: IState = {
@@ -23,7 +25,9 @@ const initialState: IState = {
   averageError: NaN,
   varianceError: NaN,
   chiSquareTableValue: 9.2364,
-  chiSquare: NaN
+  chiSquare: NaN,
+  numberOfParameters: 2,
+  parameters: new Array<number>(0, 1)
 };
 
 const statisticsReducer = (state: IState = initialState, action: IAction) => {
@@ -87,20 +91,20 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
       });
 
       state.probabilities.map((value, index) => {
-        varianceReal += value * 0.01 * values[index]**2;
+        varianceReal += value * 0.01 * values[index] ** 2;
       });
 
-      varianceReal -= averageReal**2;
+      varianceReal -= averageReal ** 2;
 
       state.result.map((value, index) => {
         newAverageApproximate += value * 0.01 * values[index];
       });
 
       state.result.map((value, index) => {
-        newVarianceApproximate += value * 0.01 * values[index]**2;
+        newVarianceApproximate += value * 0.01 * values[index] ** 2;
       });
 
-      newVarianceApproximate -= newAverageApproximate**2;
+      newVarianceApproximate -= newAverageApproximate ** 2;
 
       const newAverageError = Math.abs(newAverageApproximate - averageReal) / Math.abs(averageReal);
       const newVarianceError = Math.abs(newVarianceApproximate - varianceReal) / Math.abs(varianceReal);
@@ -108,7 +112,7 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
       let newChiSquare = 0;
 
       state.probabilities.map((value, index) => {
-        newChiSquare += (state.result[index] * 0.01 * state.amount)**2 / (value * 0.01 * state.amount);
+        newChiSquare += (state.result[index] * 0.01 * state.amount) ** 2 / (value * 0.01 * state.amount);
       });
 
       newChiSquare -= state.amount;
@@ -120,6 +124,88 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
         averageError: newAverageError,
         varianceError: newVarianceError,
         chiSquare: newChiSquare
+      };
+    }
+    case CHANGE_STATISTICS_PARAMETER: {
+      const newParameters = [...state.parameters];
+      let newParameter = action.payload.newParameter;
+
+      if (newParameter < 0) {
+        newParameter = 0;
+      }
+
+      newParameters[action.payload.curIndex] = newParameter;
+
+      return {
+        ...state,
+        parameters: newParameters
+      };
+    }
+    case CLICK_STATISTICS_INFINITE_BUTTON: {
+      const newProbabilities = new Array<number>(0, 0, 0, 0, 0);
+      let curValue = 0;
+      const lambda = 2;
+
+      const factorialize = (value: number): number => {
+        if (value == 0)
+          return 1;
+        else {
+          return value * factorialize(value - 1);
+        }
+      };
+
+      const getPoissonProbability = (value: number) => {
+        return lambda ** value * Math.E ** (-lambda) / factorialize(value) * 100;
+      };
+
+      for (let i = 0; i < state.numberOfParameters; i++) {
+        while (curValue < state.parameters[i]) {
+          newProbabilities[i * 2] += getPoissonProbability(curValue++);
+        }
+  
+        newProbabilities[i * 2 + 1] = getPoissonProbability(curValue++);
+      }
+
+      newProbabilities[state.numberOfProbabilities - 1] = 100 - newProbabilities.reduce((a, b) => a + b);
+      console.log(newProbabilities);
+
+      const newResult = new Array<number>(0, 0, 0, 0, 0);
+
+      for (let i = 0; i < state.amount; i++) {
+        const l = Math.exp(-lambda);
+        let p = 1;
+        let k = -1;
+
+        do {
+          k++;
+          p *= Math.random();
+        } while (p > l);
+
+        if (k < state.parameters[0]) {
+          newResult[0]++;
+        }
+        else if (k == state.parameters[0]) {
+          newResult[1]++;
+        }
+        else if (k < state.parameters[1]) {
+          newResult[2]++;
+        }
+        else if (k == state.parameters[1]) {
+          newResult[3]++;
+        }
+        else {
+          newResult[4]++;
+        }
+      }
+
+      newResult.forEach((value, index) => {
+        newResult[index] = parseFloat((value / state.amount * 100).toFixed(2));
+      });
+
+      return {
+        ...state,
+        probabilities: newProbabilities,
+        result: newResult
       };
     }
     default: {
