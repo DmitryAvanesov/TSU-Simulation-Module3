@@ -227,6 +227,16 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
       const newAverageError = Math.abs(newAverageApproximate - averageReal) / Math.abs(averageReal);
       const newVarianceError = Math.abs(newVarianceApproximate - varianceReal) / Math.abs(varianceReal);
 
+      let newChiSquare = 0;
+
+      newProbabilities.map((value, index) => {
+        if (value != 0) {
+          newChiSquare += (newResult[index] * 0.01 * state.amount) ** 2 / (value * 0.01 * state.amount);
+        }
+      });
+
+      newChiSquare -= state.amount;
+
       return {
         ...state,
         probabilities: newProbabilities,
@@ -234,7 +244,8 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
         averageApproximate: newAverageApproximate,
         varianceApproximate: newVarianceApproximate,
         averageError: newAverageError,
-        varianceError: newVarianceError
+        varianceError: newVarianceError,
+        chiSquare: newChiSquare
       };
     }
     default: {
