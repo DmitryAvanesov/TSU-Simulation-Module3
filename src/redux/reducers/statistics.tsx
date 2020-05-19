@@ -144,7 +144,7 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
     case CLICK_STATISTICS_INFINITE_BUTTON: {
       const newProbabilities = new Array<number>(0, 0, 0, 0, 0);
       let curValue = 0;
-      const lambda = 2;
+      const lambda = 2.6;
 
       const factorialize = (value: number): number => {
         if (value == 0)
@@ -162,14 +162,16 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
         while (curValue < state.parameters[i]) {
           newProbabilities[i * 2] += getPoissonProbability(curValue++);
         }
-  
+
         newProbabilities[i * 2 + 1] = getPoissonProbability(curValue++);
       }
 
       newProbabilities[state.numberOfProbabilities - 1] = 100 - newProbabilities.reduce((a, b) => a + b);
-      console.log(newProbabilities);
 
       const newResult = new Array<number>(0, 0, 0, 0, 0);
+      const values = new Array<number>(0, 0, 0, 0, 0);
+      let newAverageApproximate = 0;
+      let newVarianceApproximate = 0;
 
       for (let i = 0; i < state.amount; i++) {
         const l = Math.exp(-lambda);
@@ -183,29 +185,56 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
 
         if (k < state.parameters[0]) {
           newResult[0]++;
+          values[0] += k;
         }
         else if (k == state.parameters[0]) {
           newResult[1]++;
+          values[1] += k;
         }
         else if (k < state.parameters[1]) {
           newResult[2]++;
+          values[2] += k;
         }
         else if (k == state.parameters[1]) {
           newResult[3]++;
+          values[3] += k;
         }
         else {
           newResult[4]++;
+          values[4] += k;
         }
       }
+
+      values.forEach((value, index) => {
+        values[index] = value / newResult[index];
+      });
 
       newResult.forEach((value, index) => {
         newResult[index] = parseFloat((value / state.amount * 100).toFixed(2));
       });
 
+      values.forEach((value, index) => {
+        if (!Number.isNaN(value)) {
+          newAverageApproximate += newResult[index] * 0.01 * value;
+          newVarianceApproximate += newResult[index] * 0.01 * value ** 2;
+        }
+      });
+
+      newVarianceApproximate -= newAverageApproximate ** 2;
+
+      const averageReal = lambda;
+      const varianceReal = lambda;
+      const newAverageError = Math.abs(newAverageApproximate - averageReal) / Math.abs(averageReal);
+      const newVarianceError = Math.abs(newVarianceApproximate - varianceReal) / Math.abs(varianceReal);
+
       return {
         ...state,
         probabilities: newProbabilities,
-        result: newResult
+        result: newResult,
+        averageApproximate: newAverageApproximate,
+        varianceApproximate: newVarianceApproximate,
+        averageError: newAverageError,
+        varianceError: newVarianceError
       };
     }
     default: {
