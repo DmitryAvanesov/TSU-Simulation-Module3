@@ -16,7 +16,9 @@ interface IState {
   average: number,
   variance: number,
   numberOfNormalCharts: number,
-  resultNormal: Array<Array<Array<number>>>
+  pointsNormal: Array<number>,
+  resultNormalReal: Array<number>,
+  resultNormalApproximate: Array<Array<number>>
 }
 
 const initialState: IState = {
@@ -35,7 +37,9 @@ const initialState: IState = {
   average: 0,
   variance: 1,
   numberOfNormalCharts: 3,
-  resultNormal: new Array<Array<Array<number>>>([], [], [])
+  pointsNormal: new Array<number>(),
+  resultNormalReal: new Array<number>(),
+  resultNormalApproximate: new Array<Array<number>>([], [], [])
 };
 
 const statisticsReducer = (state: IState = initialState, action: IAction) => {
@@ -277,16 +281,17 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
     case CLICK_STATISTICS_NORMAL_BUTTON: {
       const range = 5;
       const numberOfIntervals = Math.ceil(Math.sqrt(state.amount)) + 1;
-      const newResultNormal = new Array<Array<Object>>([], [], []);
+      const newPointsNormal = new Array<number>();
+      const newResultNormal = new Array<number>();
 
-      for (let i = 0; i < state.numberOfNormalCharts; i++) {
-        for (let j = state.average - range; j <= state.average + range; j += 2 * range / numberOfIntervals) {
-          newResultNormal[i].push(new Array<number>(j, Math.E ** (-((j - state.average) ** 2 / (2 * state.variance))) / Math.sqrt(state.variance * 2 * Math.PI)));
-        }
+      for (let i = state.average - range; i <= state.average + range; i += 2 * range / numberOfIntervals) {
+        newPointsNormal.push(i);
+        newResultNormal.push(Math.E ** (-((i - state.average) ** 2 / (2 * state.variance))) / Math.sqrt(state.variance * 2 * Math.PI));
       }
 
       return {
         ...state,
+        pointsNormal: newPointsNormal,
         resultNormal: newResultNormal
       };
     }

@@ -14,7 +14,8 @@ const Div = styled.div`
 
 interface IState {
   statistics: {
-    resultNormal: Array<Array<Array<number>>>
+    pointsNormal: Array<number>,
+    resultNormal: Array<number>
   }
 }
 
@@ -28,13 +29,14 @@ interface IData {
 }
 
 export const StatisticsNormalChart = (props: IProps) => {
-  const resultNormal = useSelector((state: IState) => state.statistics.resultNormal[props.index]);
+  const pointsNormal = useSelector((state: IState) => state.statistics.pointsNormal);
+  const resultNormal = useSelector((state: IState) => state.statistics.resultNormal);
   const data = new Array<IData>();
 
-  resultNormal.forEach((value: Array<number>) => {
+  pointsNormal.forEach((value, index) => {
     data.push({
-      name: value[0].toFixed(2),
-      value: value[1]
+      name: value.toFixed(2),
+      value: resultNormal[index]
     });
   });
 
@@ -52,7 +54,7 @@ export const StatisticsNormalChart = (props: IProps) => {
       <YAxis />
       <Tooltip />
       <Legend />
-      <Line type="monotone" dataKey="value" stroke="#ff7300" />
+      <Line type="monotone" dataKey="value" stroke="#ff7300" dot={false} />
     </ComposedChart>
   );
 
