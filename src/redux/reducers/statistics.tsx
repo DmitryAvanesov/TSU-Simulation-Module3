@@ -279,20 +279,51 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
       };
     }
     case CLICK_STATISTICS_NORMAL_BUTTON: {
-      const range = 5;
+      const range = 6;
       const numberOfIntervals = Math.ceil(Math.sqrt(state.amount)) + 1;
       const newPointsNormal = new Array<number>();
-      const newResultNormal = new Array<number>();
+      const newResultNormalReal = new Array<number>();
 
       for (let i = state.average - range; i <= state.average + range; i += 2 * range / numberOfIntervals) {
         newPointsNormal.push(i);
-        newResultNormal.push(Math.E ** (-((i - state.average) ** 2 / (2 * state.variance))) / Math.sqrt(state.variance * 2 * Math.PI));
+        newResultNormalReal.push(Math.E ** (-((i - state.average) ** 2 / (2 * state.variance))) / Math.sqrt(state.variance * 2 * Math.PI));
+      }
+
+      const newResultNormalApproximate = new Array<Array<number>>();
+
+      for (let i = 0; i < state.numberOfNormalCharts; i++) {
+        newResultNormalApproximate.push((new Array<number>(newPointsNormal.length)).fill(0));
+      }
+
+      for (let i = 0; i < state.amount; i++) {
+        let curValue = 0;
+
+        for (let j = 0; j < 2 * range; j++) {
+          curValue += Math.random();
+        }
+
+        curValue = (curValue - range) * Math.sqrt(state.variance) + state.average;
+
+        newPointsNormal.forEach((value, index) => {
+          if (curValue > value - range / numberOfIntervals && curValue < value + range / numberOfIntervals) {
+            newResultNormalApproximate[0][index]++;
+          }
+        });
+      }
+
+      console.log(newResultNormalApproximate[0].reduce((a, b) => a + b))
+
+      for (let i = 0; i < state.numberOfNormalCharts; i++) {
+        newResultNormalApproximate[i].forEach((value, index) => {
+          newResultNormalApproximate[i][index] /= state.amount;
+        });
       }
 
       return {
         ...state,
         pointsNormal: newPointsNormal,
-        resultNormal: newResultNormal
+        resultNormalReal: newResultNormalReal,
+        resultNormalApproximate: newResultNormalApproximate
       };
     }
     default: {
