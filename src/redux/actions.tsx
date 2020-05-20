@@ -1,4 +1,4 @@
-import { IAction, CHANGE_YES_OR_NO_QUESTION, CLICK_YES_OR_NO_BUTTON, CHANGE_YES_OR_NO_PROBABILITY, CLICK_TARGET_BUTTON, CHANGE_STATISTICS_PROBABILITY, CHANGE_STATISTICS_AMOUNT, CLICK_STATISTICS_BUTTON, CLICK_DICE_BUTTON, CLICK_STATISTICS_DISCRETE_BUTTON, CLICK_FOOTBALL_BUTTON, CHANGE_STATISTICS_PARAMETER, CLICK_STATISTICS_INFINITE_BUTTON } from "./action-types";
+import { IAction, CHANGE_YES_OR_NO_QUESTION, CLICK_YES_OR_NO_BUTTON, CHANGE_YES_OR_NO_PROBABILITY, CLICK_TARGET_BUTTON, CHANGE_STATISTICS_PROBABILITY, CHANGE_STATISTICS_AMOUNT, CLICK_STATISTICS_BUTTON, CLICK_DICE_BUTTON, CLICK_STATISTICS_DISCRETE_BUTTON, CLICK_FOOTBALL_BUTTON, CHANGE_STATISTICS_INFINITE_PARAMETER, CLICK_STATISTICS_INFINITE_BUTTON, CLICK_STATISTICS_NORMAL_BUTTON, CHANGE_STATISTICS_NORMAL_AVERAGE, CHANGE_STATISTICS_NORMAL_VARIANCE } from "./action-types";
 
 export const changeYesOrNoQuestion = (): IAction => ({
   type: CHANGE_YES_OR_NO_QUESTION
@@ -50,8 +50,8 @@ export const clickFootballButton = (): IAction => ({
   type: CLICK_FOOTBALL_BUTTON
 });
 
-export const changeStatisticsParameter = (curIndex: number, newParameter: number): IAction => ({
-  type: CHANGE_STATISTICS_PARAMETER,
+export const changeStatisticsInfiniteParameter = (curIndex: number, newParameter: number): IAction => ({
+  type: CHANGE_STATISTICS_INFINITE_PARAMETER,
   payload: {
     curIndex: curIndex,
     newParameter: newParameter
@@ -60,4 +60,22 @@ export const changeStatisticsParameter = (curIndex: number, newParameter: number
 
 export const clickStatisticsInfiniteButton = (): IAction => ({
   type: CLICK_STATISTICS_INFINITE_BUTTON
+});
+
+export const changeStatisticsNormalAverage = (newAverage: number): IAction => ({
+  type: CHANGE_STATISTICS_NORMAL_AVERAGE,
+  payload: {
+    newAverage: newAverage
+  }
+});
+
+export const changeStatisticsNormalVariance = (newVariance: number): IAction => ({
+  type: CHANGE_STATISTICS_NORMAL_VARIANCE,
+  payload: {
+    newVariance: newVariance
+  }
+});
+
+export const clickStatisticsNormalButton = (): IAction => ({
+  type: CLICK_STATISTICS_NORMAL_BUTTON
 });

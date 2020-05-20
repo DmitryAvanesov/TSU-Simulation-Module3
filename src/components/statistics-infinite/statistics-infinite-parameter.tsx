@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { changeStatisticsProbability, changeStatisticsParameter } from "../../redux/actions";
+import { changeStatisticsProbability, changeStatisticsInfiniteParameter } from "../../redux/actions";
 
 const Div = styled.div`
   & > * {
@@ -34,7 +34,7 @@ export const StatisticsParameter = (props: IProps) => {
         type='number'
         step={1}
         value={parameter}
-        onChange={e => dispatch(changeStatisticsParameter(props.index, parseInt(e.target.value)))}
+        onChange={e => dispatch(changeStatisticsInfiniteParameter(props.index, parseInt(e.target.value)))}
       ></Input>
     </Div>
   );

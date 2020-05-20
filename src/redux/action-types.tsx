@@ -14,8 +14,12 @@ export const CLICK_STATISTICS_DISCRETE_BUTTON = 'CLICK_STATISTICS_DISCRETE_BUTTO
 
 export const CLICK_FOOTBALL_BUTTON = 'CLICK_FOOTBALL_BUTTON';
 
-export const CHANGE_STATISTICS_PARAMETER = 'CHANGE_STATISTICS_PARAMETER';
+export const CHANGE_STATISTICS_INFINITE_PARAMETER = 'CHANGE_STATISTICS_INFINITE_PARAMETER';
 export const CLICK_STATISTICS_INFINITE_BUTTON = 'CLICK_STATISTICS_INFINITE_BUTTON';
+
+export const CHANGE_STATISTICS_NORMAL_AVERAGE = 'CHANGE_STATISTICS_NORMAL_AVERAGE';
+export const CHANGE_STATISTICS_NORMAL_VARIANCE = 'CHANGE_STATISTICS_NORMAL_VARIANCE';
+export const CLICK_STATISTICS_NORMAL_BUTTON = 'CLICK_STATISTICS_NORMAL_BUTTON';
 
 interface IChangeYesOrNoQuestion {
   type: typeof CHANGE_YES_OR_NO_QUESTION
@@ -67,8 +71,8 @@ interface IClickFootballButton {
   type: typeof CLICK_FOOTBALL_BUTTON
 }
 
-interface IChangeStatisticsParameter {
-  type: typeof CHANGE_STATISTICS_PARAMETER,
+interface IChangeStatisticsInfiniteParameter {
+  type: typeof CHANGE_STATISTICS_INFINITE_PARAMETER,
   payload: {
     curIndex: number,
     newParameter: number
@@ -77,6 +81,24 @@ interface IChangeStatisticsParameter {
 
 interface IClickStatisticsInfiniteButton {
   type: typeof CLICK_STATISTICS_INFINITE_BUTTON
+}
+
+interface IChangeStatisticsNormalAverage {
+  type: typeof CHANGE_STATISTICS_NORMAL_AVERAGE,
+  payload: {
+    newAverage: number
+  }
+}
+
+interface IChangeStatisticsNormalVariance {
+  type: typeof CHANGE_STATISTICS_NORMAL_VARIANCE,
+  payload: {
+    newVariance: number
+  }
+}
+
+interface IClickStatisticsNormalButton {
+  type: typeof CLICK_STATISTICS_NORMAL_BUTTON
 }
 
 export type IAction =
@@ -90,5 +112,8 @@ export type IAction =
   IClickDiceButton |
   IClickStatisticsDiscreteButton |
   IClickFootballButton |
-  IChangeStatisticsParameter |
-  IClickStatisticsInfiniteButton;
+  IChangeStatisticsInfiniteParameter |
+  IClickStatisticsInfiniteButton |
+  IChangeStatisticsNormalAverage |
+  IChangeStatisticsNormalVariance |
+  IClickStatisticsNormalButton;

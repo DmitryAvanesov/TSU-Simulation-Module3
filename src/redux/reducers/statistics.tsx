@@ -1,4 +1,4 @@
-import { IAction, CHANGE_STATISTICS_PROBABILITY, CHANGE_STATISTICS_AMOUNT, CLICK_STATISTICS_BUTTON, CLICK_STATISTICS_DISCRETE_BUTTON, CHANGE_STATISTICS_PARAMETER, CLICK_STATISTICS_INFINITE_BUTTON } from '../action-types';
+import { IAction, CHANGE_STATISTICS_PROBABILITY, CHANGE_STATISTICS_AMOUNT, CLICK_STATISTICS_BUTTON, CLICK_STATISTICS_DISCRETE_BUTTON, CHANGE_STATISTICS_INFINITE_PARAMETER, CLICK_STATISTICS_INFINITE_BUTTON } from '../action-types';
 
 interface IState {
   numberOfProbabilities: number,
@@ -12,7 +12,9 @@ interface IState {
   chiSquareTableValue: number,
   chiSquare: number,
   numberOfParameters: number,
-  parameters: Array<number>
+  parameters: Array<number>,
+  average: number,
+  variance: number
 }
 
 const initialState: IState = {
@@ -27,7 +29,9 @@ const initialState: IState = {
   chiSquareTableValue: 9.2364,
   chiSquare: NaN,
   numberOfParameters: 2,
-  parameters: new Array<number>(0, 1)
+  parameters: new Array<number>(0, 1),
+  average: 0,
+  variance: 1
 };
 
 const statisticsReducer = (state: IState = initialState, action: IAction) => {
@@ -126,7 +130,7 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
         chiSquare: newChiSquare
       };
     }
-    case CHANGE_STATISTICS_PARAMETER: {
+    case CHANGE_STATISTICS_INFINITE_PARAMETER: {
       const newParameters = [...state.parameters];
       let newParameter = action.payload.newParameter;
 
