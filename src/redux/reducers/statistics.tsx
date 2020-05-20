@@ -1,4 +1,4 @@
-import { IAction, CHANGE_STATISTICS_PROBABILITY, CHANGE_STATISTICS_AMOUNT, CLICK_STATISTICS_BUTTON, CLICK_STATISTICS_DISCRETE_BUTTON, CHANGE_STATISTICS_INFINITE_PARAMETER, CLICK_STATISTICS_INFINITE_BUTTON } from '../action-types';
+import { IAction, CHANGE_STATISTICS_PROBABILITY, CHANGE_STATISTICS_AMOUNT, CLICK_STATISTICS_BUTTON, CLICK_STATISTICS_DISCRETE_BUTTON, CHANGE_STATISTICS_INFINITE_PARAMETER, CLICK_STATISTICS_INFINITE_BUTTON, CHANGE_STATISTICS_NORMAL_AVERAGE, CHANGE_STATISTICS_NORMAL_VARIANCE, CLICK_STATISTICS_NORMAL_BUTTON } from '../action-types';
 
 interface IState {
   numberOfProbabilities: number,
@@ -14,7 +14,9 @@ interface IState {
   numberOfParameters: number,
   parameters: Array<number>,
   average: number,
-  variance: number
+  variance: number,
+  numberOfNormalCharts: number,
+  resultNormal: Array<Array<Array<number>>>
 }
 
 const initialState: IState = {
@@ -31,7 +33,9 @@ const initialState: IState = {
   numberOfParameters: 2,
   parameters: new Array<number>(0, 1),
   average: 0,
-  variance: 1
+  variance: 1,
+  numberOfNormalCharts: 3,
+  resultNormal: new Array<Array<Array<number>>>([], [], [])
 };
 
 const statisticsReducer = (state: IState = initialState, action: IAction) => {
@@ -250,6 +254,40 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
         averageError: newAverageError,
         varianceError: newVarianceError,
         chiSquare: newChiSquare
+      };
+    }
+    case CHANGE_STATISTICS_NORMAL_AVERAGE: {
+      return {
+        ...state,
+        average: action.payload.newAverage
+      };
+    }
+    case CHANGE_STATISTICS_NORMAL_VARIANCE: {
+      let newVariance = action.payload.newVariance;
+
+      if (newVariance < 0) {
+        newVariance = 0;
+      }
+
+      return {
+        ...state,
+        variance: newVariance
+      };
+    }
+    case CLICK_STATISTICS_NORMAL_BUTTON: {
+      const range = 5;
+      const numberOfIntervals = Math.ceil(Math.sqrt(state.amount)) + 1;
+      const newResultNormal = new Array<Array<Object>>([], [], []);
+
+      for (let i = 0; i < state.numberOfNormalCharts; i++) {
+        for (let j = state.average - range; j <= state.average + range; j += 2 * range / numberOfIntervals) {
+          newResultNormal[i].push(new Array<number>(j, Math.E ** (-((j - state.average) ** 2 / (2 * state.variance))) / Math.sqrt(state.variance * 2 * Math.PI)));
+        }
+      }
+
+      return {
+        ...state,
+        resultNormal: newResultNormal
       };
     }
     default: {

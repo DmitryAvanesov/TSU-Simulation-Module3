@@ -8,6 +8,7 @@ import { DiceContainer } from "./dice/dice-container";
 import { StatisticsDiscreteContainer } from "./statistics-discrete/statistics-discrete-container";
 import { FootballContainer } from "./football/football-container";
 import { StatisticsInfiniteContainer } from "./statistics-infinite/statistics-infinite-container";
+import { StatisticsNormalContainer } from "./statistics-normal/statistics-normal-container";
 
 const DivButton = styled.div`
   width: 275px;
@@ -68,6 +69,9 @@ export const MainContainer = () => {
           <Link to='/statistics-infinite'>
             <DivButton>Statistics: infinite (13)</DivButton>
           </Link>
+          <Link to='/statistics-normal'>
+            <DivButton>Statistics: normal (14)</DivButton>
+          </Link>
         </Route>
 
         <Route exact path='/yes-or-no'>
@@ -103,6 +107,11 @@ export const MainContainer = () => {
         <Route exact path='/statistics-infinite'>
           <DivContainer>
             <StatisticsInfiniteContainer />
+          </DivContainer>
+        </Route>
+        <Route exact path='/statistics-normal'>
+          <DivContainer>
+            <StatisticsNormalContainer />
           </DivContainer>
         </Route>
       </Switch>

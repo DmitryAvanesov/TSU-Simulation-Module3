@@ -1,58 +1,59 @@
 import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
+import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, ComposedChart, Line } from 'recharts';
 import { StatisticsDiscreteResult } from "../statistics-discrete/statistics-discrete-result";
 
 const Div = styled.div`
   display: inline-block;
+
+  && * {
+    font-size: 14px;
+  }
 `;
 
 interface IState {
   statistics: {
-    numberOfProbabilities: number,
-    probabilities: Array<number>,
-    result: Array<number>
+    resultNormal: Array<Array<Array<number>>>
   }
+}
+
+interface IProps {
+  index: number
 }
 
 interface IData {
   name: string,
-  real: number,
-  approximate: number
+  value: number
 }
 
-export const StatisticsNormalChart = () => {
-  const probabilities = useSelector((state: IState) => state.statistics.probabilities);
-  const result = useSelector((state: IState) => state.statistics.result);
-  const numberOfProbabilities = useSelector((state: IState) => state.statistics.numberOfProbabilities);
-  const data = new Array<IData>(numberOfProbabilities);
+export const StatisticsNormalChart = (props: IProps) => {
+  const resultNormal = useSelector((state: IState) => state.statistics.resultNormal[props.index]);
+  const data = new Array<IData>();
 
-  for (let i = 0; i < numberOfProbabilities; i++) {
-    data[i] = {
-      name: `Event ${i} (%)`,
-      real: probabilities[i],
-      approximate: result[i]
-    };
-  }
+  resultNormal.forEach((value: Array<number>) => {
+    data.push({
+      name: value[0].toFixed(2),
+      value: value[1]
+    });
+  });
 
   const chart = (
-    <BarChart
-      width={700}
-      height={350}
+    <ComposedChart
+      width={350}
+      height={300}
       data={data}
       margin={{
-        top: 5, right: 30, left: 20, bottom: 5,
+        top: 20, right: 20, bottom: 20, left: 20,
       }}
     >
-      <CartesianGrid />
-      <XAxis dataKey='name' />
+      <CartesianGrid stroke="#f5f5f5" />
+      <XAxis dataKey="name" />
       <YAxis />
       <Tooltip />
       <Legend />
-      <Bar dataKey='real' fill="#8884d8" />
-      <Bar dataKey='approximate' fill="#82ca9d" />
-    </BarChart>
+      <Line type="monotone" dataKey="value" stroke="#ff7300" />
+    </ComposedChart>
   );
 
   return (
