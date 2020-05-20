@@ -49,6 +49,7 @@ export const StatisticsNormalChart = (props: IProps) => {
       width={350}
       height={300}
       data={data}
+      barCategoryGap={0}
       margin={{
         top: 20, right: 20, bottom: 20, left: 20,
       }}
@@ -58,8 +59,8 @@ export const StatisticsNormalChart = (props: IProps) => {
       <YAxis />
       <Tooltip />
       <Legend />
-      <Bar dataKey="approximate" barSize={20} fill="#413ea0" />
-      <Line type="monotone" dataKey="real" stroke="#ff7300" dot={false} />
+      <Bar dataKey="approximate" fill="#82ca9d" />
+      <Line type="monotone" dataKey="real" stroke="#413ea0" dot={false} />
     </ComposedChart>
   );
 
