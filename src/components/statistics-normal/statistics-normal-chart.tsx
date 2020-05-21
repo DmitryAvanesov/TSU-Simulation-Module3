@@ -16,7 +16,13 @@ interface IState {
   statistics: {
     pointsNormal: Array<number>,
     resultNormalReal: Array<number>,
-    resultNormalApproximate: Array<Array<number>>
+    resultNormalApproximate: Array<Array<number>>,
+    averageNormalApproximate: Array<number>,
+    varianceNormalApproximate: Array<number>,
+    averageNormalError: Array<number>,
+    varianceNormalError: Array<number>,
+    chiSquareNormal: Array<number>,
+    chiSquareTableValue: number
   }
 }
 
@@ -34,7 +40,13 @@ export const StatisticsNormalChart = (props: IProps) => {
   const pointsNormal = useSelector((state: IState) => state.statistics.pointsNormal);
   const resultNormalReal = useSelector((state: IState) => state.statistics.resultNormalReal);
   const resultNormalApproximate = useSelector((state: IState) => state.statistics.resultNormalApproximate);
+  const averageNormalApproximate = useSelector((state: IState) => state.statistics.averageNormalApproximate[props.index]);
+  const varianceNormalApproximate = useSelector((state: IState) => state.statistics.varianceNormalApproximate[props.index]);
+  const averageNormalError = useSelector((state: IState) => state.statistics.averageNormalError[props.index]);
+  const varianceNormalError = useSelector((state: IState) => state.statistics.varianceNormalError[props.index]);
   const data = new Array<IData>();
+
+  console.log(averageNormalError)
 
   pointsNormal.forEach((value, index) => {
     data.push({
@@ -67,7 +79,15 @@ export const StatisticsNormalChart = (props: IProps) => {
   return (
     <Div>
       {chart}
-      <StatisticsDiscreteResult />
+      <div>
+        <b>Approximate average: {parseFloat(averageNormalApproximate.toFixed(2))}</b> (error = {parseFloat(averageNormalError.toFixed(2))})
+      </div>
+      <div>
+        <b>Approximate variance: {parseFloat(varianceNormalApproximate.toFixed(2))}</b> (error = {parseFloat(varianceNormalError.toFixed(2))})
+      </div>
+      {/* <div>
+        Chi-square: {parseFloat(chiSquareNormal.toFixed(2))} &gt; {chiSquareTableValue} is <b>{chiSquare > chiSquareTableValue ? 'true' : 'false'}</b>
+      </div> */}
     </Div>
   );
 }

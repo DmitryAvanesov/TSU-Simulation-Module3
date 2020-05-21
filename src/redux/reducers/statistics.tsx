@@ -18,7 +18,12 @@ interface IState {
   numberOfNormalCharts: number,
   pointsNormal: Array<number>,
   resultNormalReal: Array<number>,
-  resultNormalApproximate: Array<Array<number>>
+  resultNormalApproximate: Array<Array<number>>,
+  averageNormalApproximate: Array<number>,
+  varianceNormalApproximate: Array<number>,
+  averageNormalError: Array<number>,
+  varianceNormalError: Array<number>,
+  chiSquareNormal: Array<number>
 }
 
 const initialState: IState = {
@@ -39,7 +44,12 @@ const initialState: IState = {
   numberOfNormalCharts: 3,
   pointsNormal: new Array<number>(),
   resultNormalReal: new Array<number>(),
-  resultNormalApproximate: new Array<Array<number>>([], [], [])
+  resultNormalApproximate: new Array<Array<number>>([], [], []),
+  averageNormalApproximate: new Array<number>(0, 0, 0),
+  varianceNormalApproximate: new Array<number>(0, 0, 0),
+  averageNormalError: new Array<number>(NaN, NaN, NaN),
+  varianceNormalError: new Array<number>(NaN, NaN, NaN),
+  chiSquareNormal: new Array<number>(NaN, NaN, NaN)
 };
 
 const statisticsReducer = (state: IState = initialState, action: IAction) => {
@@ -283,6 +293,10 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
       const numberOfIntervals = Math.ceil(Math.sqrt(state.amount)) + 1;
       const newPointsNormal = new Array<number>();
       const newResultNormalReal = new Array<number>();
+      const newAverageNormalApproximate = new Array<number>(0, 0, 0);
+      const newVarianceNormalApproximate = new Array<number>(0, 0, 0);
+      const newAverageNormalError = new Array<number>(state.numberOfNormalCharts);
+      const newVarianceNormalError = new Array<number>(state.numberOfNormalCharts);
 
       for (let i = state.average - range; i <= state.average + range; i += 2 * range / numberOfIntervals) {
         newPointsNormal.push(i);
@@ -309,6 +323,9 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
             newResultNormalApproximate[0][index]++;
           }
         });
+
+        newAverageNormalApproximate[0] += curValue;
+        newVarianceNormalApproximate[0] += curValue ** 2;
       }
 
       for (let i = 0; i < state.amount; i++) {
@@ -327,6 +344,9 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
             newResultNormalApproximate[1][index]++;
           }
         });
+
+        newAverageNormalApproximate[1] += curValue;
+        newVarianceNormalApproximate[1] += curValue ** 2;
       }
 
       for (let i = 0; i < state.amount; i++) {
@@ -338,19 +358,32 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
             newResultNormalApproximate[2][index]++;
           }
         });
+
+        newAverageNormalApproximate[2] += curValue;
+        newVarianceNormalApproximate[2] += curValue ** 2;
       }
 
       for (let i = 0; i < state.numberOfNormalCharts; i++) {
         newResultNormalApproximate[i].forEach((value, index) => {
           newResultNormalApproximate[i][index] /= state.amount * (2 * range / numberOfIntervals);
         });
+
+        newAverageNormalApproximate[i] /= state.amount;
+        newVarianceNormalApproximate[i] = newVarianceNormalApproximate[i] / state.amount - newAverageNormalApproximate[i] ** 2;
+      
+        newAverageNormalError[i] = Math.abs(newAverageNormalApproximate[i] - state.average);
+        newVarianceNormalError[i] = Math.abs(newVarianceNormalApproximate[i] - state.variance);
       }
 
       return {
         ...state,
         pointsNormal: newPointsNormal,
         resultNormalReal: newResultNormalReal,
-        resultNormalApproximate: newResultNormalApproximate
+        resultNormalApproximate: newResultNormalApproximate,
+        averageNormalApproximate: newAverageNormalApproximate,
+        varianceNormalApproximate: newVarianceNormalApproximate,
+        averageNormalError: newAverageNormalError,
+        varianceNormalError: newVarianceNormalError
       };
     }
     default: {
