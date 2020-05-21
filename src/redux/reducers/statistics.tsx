@@ -311,13 +311,29 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
         });
       }
 
+      for (let i = 0; i < state.amount; i++) {
+        let curValue = 0;
+
+        for (let j = 0; j < 2 * range; j++) {
+          curValue += Math.random();
+        }
+        
+        curValue -= range;
+        curValue += (curValue ** 3 - curValue * 3) / (range * 40);
+        curValue = curValue * Math.sqrt(state.variance) + state.average;
+
+        newPointsNormal.forEach((value, index) => {
+          if (curValue > value - range / numberOfIntervals && curValue < value + range / numberOfIntervals) {
+            newResultNormalApproximate[1][index]++;
+          }
+        });
+      }
+
       for (let i = 0; i < state.numberOfNormalCharts; i++) {
         newResultNormalApproximate[i].forEach((value, index) => {
           newResultNormalApproximate[i][index] /= state.amount * (2 * range / numberOfIntervals);
         });
       }
-
-      console.log(newResultNormalApproximate[0].reduce((a, b) => a + b))
 
       return {
         ...state,
