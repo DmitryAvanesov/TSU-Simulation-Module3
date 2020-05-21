@@ -107,6 +107,7 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
       let varianceReal = 0;
       let newAverageApproximate = 0;
       let newVarianceApproximate = 0;
+      const newChiSquareTableValue = 9.24;
 
       state.probabilities.map((value, index) => {
         averageReal += value * 0.01 * values[index];
@@ -145,7 +146,8 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
         varianceApproximate: newVarianceApproximate,
         averageError: newAverageError,
         varianceError: newVarianceError,
-        chiSquare: newChiSquare
+        chiSquare: newChiSquare,
+        chiSquareTableValue: newChiSquareTableValue
       };
     }
     case CHANGE_STATISTICS_INFINITE_PARAMETER: {
@@ -167,6 +169,7 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
       const newProbabilities = new Array<number>(0, 0, 0, 0, 0);
       let curValue = 0;
       const lambda = 2.6;
+      const newChiSquareTableValue = 7.78;
 
       const factorialize = (value: number): number => {
         if (value == 0)
@@ -267,7 +270,8 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
         varianceApproximate: newVarianceApproximate,
         averageError: newAverageError,
         varianceError: newVarianceError,
-        chiSquare: newChiSquare
+        chiSquare: newChiSquare,
+        chiSquareTableValue: newChiSquareTableValue
       };
     }
     case CHANGE_STATISTICS_NORMAL_AVERAGE: {
@@ -291,12 +295,14 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
     case CLICK_STATISTICS_NORMAL_BUTTON: {
       const range = 6;
       const numberOfIntervals = Math.ceil(Math.sqrt(state.amount)) + 1;
+      const newChiSquareTableValue = numberOfIntervals == 5 ? 9.24 : numberOfIntervals == 11 ? 17.28 : numberOfIntervals == 33 ? 54.78 : numberOfIntervals == 101 ? 118.5 : NaN;
       const newPointsNormal = new Array<number>();
       const newResultNormalReal = new Array<number>();
       const newAverageNormalApproximate = new Array<number>(0, 0, 0);
       const newVarianceNormalApproximate = new Array<number>(0, 0, 0);
       const newAverageNormalError = new Array<number>(state.numberOfNormalCharts);
       const newVarianceNormalError = new Array<number>(state.numberOfNormalCharts);
+      let newChiSquareNormal = new Array<number>(0, 0, 0);
 
       for (let i = state.average - range; i <= state.average + range; i += 2 * range / numberOfIntervals) {
         newPointsNormal.push(i);
@@ -364,26 +370,34 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
       }
 
       for (let i = 0; i < state.numberOfNormalCharts; i++) {
+        newAverageNormalApproximate[i] /= state.amount;
+        newVarianceNormalApproximate[i] = newVarianceNormalApproximate[i] / state.amount - newAverageNormalApproximate[i] ** 2;
+
+        newAverageNormalError[i] = Math.abs(newAverageNormalApproximate[i] - state.average);
+        newVarianceNormalError[i] = Math.abs(newVarianceNormalApproximate[i] - state.variance);
+
+        newResultNormalApproximate[i].forEach((value, index) => {
+          newChiSquareNormal[i] += value ** 2 / (state.amount * newResultNormalReal[index] * 2 * range / numberOfIntervals);
+        });
+
+        newChiSquareNormal[i] -= state.amount;
+
         newResultNormalApproximate[i].forEach((value, index) => {
           newResultNormalApproximate[i][index] /= state.amount * (2 * range / numberOfIntervals);
         });
-
-        newAverageNormalApproximate[i] /= state.amount;
-        newVarianceNormalApproximate[i] = newVarianceNormalApproximate[i] / state.amount - newAverageNormalApproximate[i] ** 2;
-      
-        newAverageNormalError[i] = Math.abs(newAverageNormalApproximate[i] - state.average);
-        newVarianceNormalError[i] = Math.abs(newVarianceNormalApproximate[i] - state.variance);
       }
 
       return {
         ...state,
+        chiSquareTableValue: newChiSquareTableValue,
         pointsNormal: newPointsNormal,
         resultNormalReal: newResultNormalReal,
         resultNormalApproximate: newResultNormalApproximate,
         averageNormalApproximate: newAverageNormalApproximate,
         varianceNormalApproximate: newVarianceNormalApproximate,
         averageNormalError: newAverageNormalError,
-        varianceNormalError: newVarianceNormalError
+        varianceNormalError: newVarianceNormalError,
+        chiSquareNormal: newChiSquareNormal
       };
     }
     default: {

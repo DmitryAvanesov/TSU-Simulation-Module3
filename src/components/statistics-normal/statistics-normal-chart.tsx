@@ -44,9 +44,9 @@ export const StatisticsNormalChart = (props: IProps) => {
   const varianceNormalApproximate = useSelector((state: IState) => state.statistics.varianceNormalApproximate[props.index]);
   const averageNormalError = useSelector((state: IState) => state.statistics.averageNormalError[props.index]);
   const varianceNormalError = useSelector((state: IState) => state.statistics.varianceNormalError[props.index]);
+  const chiSquareNormal = useSelector((state: IState) => state.statistics.chiSquareNormal[props.index]);
+  const chiSquareTableValue = useSelector((state: IState) => state.statistics.chiSquareTableValue);
   const data = new Array<IData>();
-
-  console.log(averageNormalError)
 
   pointsNormal.forEach((value, index) => {
     data.push({
@@ -85,9 +85,9 @@ export const StatisticsNormalChart = (props: IProps) => {
       <div>
         <b>Approximate variance: {parseFloat(varianceNormalApproximate.toFixed(2))}</b> (error = {parseFloat(varianceNormalError.toFixed(2))})
       </div>
-      {/* <div>
-        Chi-square: {parseFloat(chiSquareNormal.toFixed(2))} &gt; {chiSquareTableValue} is <b>{chiSquare > chiSquareTableValue ? 'true' : 'false'}</b>
-      </div> */}
+      <div>
+        Chi-square: {parseFloat(chiSquareNormal.toFixed(2))} &gt; {chiSquareTableValue} is <b>{chiSquareNormal > chiSquareTableValue ? 'true' : 'false'}</b>
+      </div>
     </Div>
   );
 }
