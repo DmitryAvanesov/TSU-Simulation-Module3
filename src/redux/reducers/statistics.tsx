@@ -317,7 +317,7 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
         for (let j = 0; j < 2 * range; j++) {
           curValue += Math.random();
         }
-        
+
         curValue -= range;
         curValue += (curValue ** 3 - curValue * 3) / (range * 40);
         curValue = curValue * Math.sqrt(state.variance) + state.average;
@@ -325,6 +325,17 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
         newPointsNormal.forEach((value, index) => {
           if (curValue > value - range / numberOfIntervals && curValue < value + range / numberOfIntervals) {
             newResultNormalApproximate[1][index]++;
+          }
+        });
+      }
+
+      for (let i = 0; i < state.amount; i++) {
+        let curValue = Math.sqrt(-2 * Math.log(Math.random())) * Math.sin(2 * Math.PI * Math.random());
+        curValue = curValue * Math.sqrt(state.variance) + state.average;
+
+        newPointsNormal.forEach((value, index) => {
+          if (curValue > value - range / numberOfIntervals && curValue < value + range / numberOfIntervals) {
+            newResultNormalApproximate[2][index]++;
           }
         });
       }
