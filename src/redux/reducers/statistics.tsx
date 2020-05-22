@@ -23,7 +23,8 @@ interface IState {
   varianceNormalApproximate: Array<number>,
   averageNormalError: Array<number>,
   varianceNormalError: Array<number>,
-  chiSquareNormal: Array<number>
+  chiSquareNormal: Array<number>,
+  duration: Array<number>
 }
 
 const initialState: IState = {
@@ -49,7 +50,8 @@ const initialState: IState = {
   varianceNormalApproximate: new Array<number>(0, 0, 0),
   averageNormalError: new Array<number>(NaN, NaN, NaN),
   varianceNormalError: new Array<number>(NaN, NaN, NaN),
-  chiSquareNormal: new Array<number>(NaN, NaN, NaN)
+  chiSquareNormal: new Array<number>(NaN, NaN, NaN),
+  duration: new Array<number>(NaN, NaN, NaN)
 };
 
 const statisticsReducer = (state: IState = initialState, action: IAction) => {
@@ -303,6 +305,7 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
       const newAverageNormalError = new Array<number>(state.numberOfNormalCharts);
       const newVarianceNormalError = new Array<number>(state.numberOfNormalCharts);
       let newChiSquareNormal = new Array<number>(0, 0, 0);
+      const newDuration = new Array<number>(state.numberOfNormalCharts);
 
       for (let i = state.average - range; i <= state.average + range; i += 2 * range / numberOfIntervals) {
         newPointsNormal.push(i);
@@ -314,6 +317,8 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
       for (let i = 0; i < state.numberOfNormalCharts; i++) {
         newResultNormalApproximate.push((new Array<number>(newPointsNormal.length)).fill(0));
       }
+
+      let timeStart = Date.now();
 
       for (let i = 0; i < state.amount; i++) {
         let curValue = 0;
@@ -333,6 +338,9 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
         newAverageNormalApproximate[0] += curValue;
         newVarianceNormalApproximate[0] += curValue ** 2;
       }
+
+      newDuration[0] = Date.now() - timeStart;
+      timeStart = Date.now();
 
       for (let i = 0; i < state.amount; i++) {
         let curValue = 0;
@@ -355,6 +363,9 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
         newVarianceNormalApproximate[1] += curValue ** 2;
       }
 
+      newDuration[1] = Date.now() - timeStart;
+      timeStart = Date.now();
+
       for (let i = 0; i < state.amount; i++) {
         let curValue = Math.sqrt(-2 * Math.log(Math.random())) * Math.sin(2 * Math.PI * Math.random());
         curValue = curValue * Math.sqrt(state.variance) + state.average;
@@ -368,6 +379,8 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
         newAverageNormalApproximate[2] += curValue;
         newVarianceNormalApproximate[2] += curValue ** 2;
       }
+
+      newDuration[2] = Date.now() - timeStart;
 
       for (let i = 0; i < state.numberOfNormalCharts; i++) {
         newAverageNormalApproximate[i] /= state.amount;
@@ -397,7 +410,8 @@ const statisticsReducer = (state: IState = initialState, action: IAction) => {
         varianceNormalApproximate: newVarianceNormalApproximate,
         averageNormalError: newAverageNormalError,
         varianceNormalError: newVarianceNormalError,
-        chiSquareNormal: newChiSquareNormal
+        chiSquareNormal: newChiSquareNormal,
+        duration: newDuration
       };
     }
     default: {

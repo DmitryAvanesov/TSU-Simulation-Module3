@@ -22,7 +22,8 @@ interface IState {
     averageNormalError: Array<number>,
     varianceNormalError: Array<number>,
     chiSquareNormal: Array<number>,
-    chiSquareTableValue: number
+    chiSquareTableValue: number,
+    duration: Array<number>
   }
 }
 
@@ -46,6 +47,8 @@ export const StatisticsNormalChart = (props: IProps) => {
   const varianceNormalError = useSelector((state: IState) => state.statistics.varianceNormalError[props.index]);
   const chiSquareNormal = useSelector((state: IState) => state.statistics.chiSquareNormal[props.index]);
   const chiSquareTableValue = useSelector((state: IState) => state.statistics.chiSquareTableValue);
+  const duration = useSelector((state: IState) => state.statistics.duration[props.index]);
+ 
   const data = new Array<IData>();
 
   pointsNormal.forEach((value, index) => {
@@ -63,7 +66,7 @@ export const StatisticsNormalChart = (props: IProps) => {
       data={data}
       barCategoryGap={0}
       margin={{
-        top: 20, right: 20, bottom: 20, left: 20,
+        top: 20, right: 20, bottom: 20, left: 0
       }}
     >
       <CartesianGrid stroke="#f5f5f5" />
@@ -78,6 +81,8 @@ export const StatisticsNormalChart = (props: IProps) => {
 
   return (
     <Div>
+      <div>Method {props.index}</div>
+      <br />
       {chart}
       <div>
         <b>Approximate average: {parseFloat(averageNormalApproximate.toFixed(2))}</b> (error = {parseFloat(averageNormalError.toFixed(2))})
@@ -87,6 +92,10 @@ export const StatisticsNormalChart = (props: IProps) => {
       </div>
       <div>
         Chi-square: {parseFloat(chiSquareNormal.toFixed(2))} &gt; {chiSquareTableValue} is <b>{chiSquareNormal > chiSquareTableValue ? 'true' : 'false'}</b>
+      </div>
+      <br />
+      <div>
+        <b>Duration:</b> {parseFloat(duration.toFixed(2))}ms
       </div>
     </Div>
   );
