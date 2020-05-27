@@ -3,9 +3,14 @@
     "outDir": "./dist/",
     "sourceMap": true,
     "noImplicitAny": true,
-    "module": "commonjs",
-    "target": "es5",
+    "module": "CommonJS",
+    "target": "es6",
     "jsx": "react",
-    "esModuleInterop": true
-  }
+    "allowJs": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node"
+  },
+  "include": [
+    "./src/custom.d.ts"
+  ]
 }

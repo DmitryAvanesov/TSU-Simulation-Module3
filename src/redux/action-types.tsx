@@ -4,6 +4,23 @@ export const CLICK_YES_OR_NO_BUTTON = 'CLICK_YES_OR_NO_BUTTON';
 
 export const CLICK_TARGET_BUTTON = 'CLICK_TARGET_BUTTON';
 
+export const CHANGE_STATISTICS_PROBABILITY = 'CHANGE_STATISTICS_PROBABILITY';
+export const CHANGE_STATISTICS_AMOUNT = 'CHANGE_STATISTICS_AMOUNT';
+export const CLICK_STATISTICS_BUTTON = 'CLICK_STATISTICS_BUTTON';
+
+export const CLICK_DICE_BUTTON = 'CLICK_DICE_BUTTON';
+
+export const CLICK_STATISTICS_DISCRETE_BUTTON = 'CLICK_STATISTICS_DISCRETE_BUTTON';
+
+export const CLICK_FOOTBALL_BUTTON = 'CLICK_FOOTBALL_BUTTON';
+
+export const CHANGE_STATISTICS_INFINITE_PARAMETER = 'CHANGE_STATISTICS_INFINITE_PARAMETER';
+export const CLICK_STATISTICS_INFINITE_BUTTON = 'CLICK_STATISTICS_INFINITE_BUTTON';
+
+export const CHANGE_STATISTICS_NORMAL_AVERAGE = 'CHANGE_STATISTICS_NORMAL_AVERAGE';
+export const CHANGE_STATISTICS_NORMAL_VARIANCE = 'CHANGE_STATISTICS_NORMAL_VARIANCE';
+export const CLICK_STATISTICS_NORMAL_BUTTON = 'CLICK_STATISTICS_NORMAL_BUTTON';
+
 interface IChangeYesOrNoQuestion {
   type: typeof CHANGE_YES_OR_NO_QUESTION
 }
@@ -23,4 +40,80 @@ interface IClickTargetButton {
   type: typeof CLICK_TARGET_BUTTON
 }
 
-export type IAction = IChangeYesOrNoQuestion | IChangeYesOrNoProbability | IClickYesOrNoButton | IClickTargetButton;
+interface IChangeStatisticsProbability {
+  type: typeof CHANGE_STATISTICS_PROBABILITY,
+  payload: {
+    curIndex: number,
+    newProbability: number
+  }
+}
+
+interface IChangeStatisticsAmount {
+  type: typeof CHANGE_STATISTICS_AMOUNT,
+  payload: {
+    newAmount: number
+  }
+}
+
+interface IClickStatisticsButton {
+  type: typeof CLICK_STATISTICS_BUTTON
+}
+
+interface IClickDiceButton {
+  type: typeof CLICK_DICE_BUTTON
+}
+
+interface IClickStatisticsDiscreteButton {
+  type: typeof CLICK_STATISTICS_DISCRETE_BUTTON
+}
+
+interface IClickFootballButton {
+  type: typeof CLICK_FOOTBALL_BUTTON
+}
+
+interface IChangeStatisticsInfiniteParameter {
+  type: typeof CHANGE_STATISTICS_INFINITE_PARAMETER,
+  payload: {
+    curIndex: number,
+    newParameter: number
+  }
+}
+
+interface IClickStatisticsInfiniteButton {
+  type: typeof CLICK_STATISTICS_INFINITE_BUTTON
+}
+
+interface IChangeStatisticsNormalAverage {
+  type: typeof CHANGE_STATISTICS_NORMAL_AVERAGE,
+  payload: {
+    newAverage: number
+  }
+}
+
+interface IChangeStatisticsNormalVariance {
+  type: typeof CHANGE_STATISTICS_NORMAL_VARIANCE,
+  payload: {
+    newVariance: number
+  }
+}
+
+interface IClickStatisticsNormalButton {
+  type: typeof CLICK_STATISTICS_NORMAL_BUTTON
+}
+
+export type IAction =
+  IChangeYesOrNoQuestion |
+  IChangeYesOrNoProbability |
+  IClickYesOrNoButton |
+  IClickTargetButton |
+  IChangeStatisticsProbability |
+  IChangeStatisticsAmount |
+  IClickStatisticsButton |
+  IClickDiceButton |
+  IClickStatisticsDiscreteButton |
+  IClickFootballButton |
+  IChangeStatisticsInfiniteParameter |
+  IClickStatisticsInfiniteButton |
+  IChangeStatisticsNormalAverage |
+  IChangeStatisticsNormalVariance |
+  IClickStatisticsNormalButton;
